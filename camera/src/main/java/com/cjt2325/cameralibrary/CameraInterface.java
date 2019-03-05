@@ -622,7 +622,7 @@ public class CameraInterface implements Camera.PreviewCallback {
     }
 
     //停止录像
-    public void stopRecord(boolean isShort, StopRecordCallback callback) {
+    public void stopRecord(boolean isShort, long time, StopRecordCallback callback) {
         if (!isRecorder) {
             return;
         }
@@ -645,13 +645,13 @@ public class CameraInterface implements Camera.PreviewCallback {
             }
             if (isShort) {
                 if (FileUtil.deleteFile(videoFileAbsPath)) {
-                    callback.recordResult(null, null);
+                    callback.recordResult(null, 0, null);
                 }
                 return;
             }
             doStopPreview();
             String fileName = saveVideoPath + File.separator + videoFileName;
-            callback.recordResult(fileName, videoFirstFrame);
+            callback.recordResult(fileName, time, videoFirstFrame);
         }
     }
 
@@ -742,7 +742,7 @@ public class CameraInterface implements Camera.PreviewCallback {
 
 
     public interface StopRecordCallback {
-        void recordResult(String url, Bitmap firstFrame);
+        void recordResult(String url, long time, Bitmap firstFrame);
     }
 
     interface ErrorCallback {

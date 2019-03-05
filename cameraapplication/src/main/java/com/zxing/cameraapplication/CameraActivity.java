@@ -65,10 +65,10 @@ public class CameraActivity extends AppCompatActivity {
             }
 
             @Override
-            public void recordSuccess(String url, Bitmap firstFrame) {
+            public void recordSuccess(String url, Bitmap firstFrame, long time) {
                 //获取视频路径
                 String path = FileUtil.saveBitmap("JCamera", firstFrame);
-                Log.i("CJT", "url = " + url + ", Bitmap = " + path);
+                Log.i("CJT", "url = " + url + ", Bitmap = " + path + ", time=" + time);
                 Intent intent = new Intent();
                 intent.putExtra("path", path);
                 setResult(101, intent);
@@ -85,7 +85,7 @@ public class CameraActivity extends AppCompatActivity {
         jCameraView.setRightClickListener(new ClickListener() {
             @Override
             public void onClick() {
-                Toast.makeText(CameraActivity.this,"Right",Toast.LENGTH_SHORT).show();
+                Toast.makeText(CameraActivity.this, "Right", Toast.LENGTH_SHORT).show();
             }
         });
 

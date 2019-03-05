@@ -98,6 +98,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
     private Bitmap captureBitmap;   //捕获的图片
     private Bitmap firstFrame;      //第一帧图片
     private String videoUrl;        //视频URL
+    private long time;//视频持续时间
 
 
     //切换摄像头按钮的参数
@@ -106,7 +107,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
     private int iconSrc = 0;        //图标资源
     private int iconLeft = 0;       //左图标
     private int iconRight = 0;      //右图标
-    private int duration = 0;       //录制时间
+    private int duration = 0;       //最大录制时间
 
     //缩放梯度
     private int zoomGradient = 0;
@@ -209,6 +210,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
 
             @Override
             public void recordEnd(long time) {
+                JCameraView.this.time = time;
                 machine.stopRecord(false, time);
             }
 
@@ -449,7 +451,7 @@ public class JCameraView extends FrameLayout implements CameraInterface.CameraOp
                 mVideoView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
                 machine.start(mVideoView.getHolder(), screenProp);
                 if (jCameraLisenter != null) {
-                    jCameraLisenter.recordSuccess(videoUrl, firstFrame);
+                    jCameraLisenter.recordSuccess(videoUrl, firstFrame, time);
                 }
                 break;
             case TYPE_PICTURE:
